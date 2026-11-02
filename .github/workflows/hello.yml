@@ -10,7 +10,9 @@ jobs:
         run: echo "Bonjour"
 
       - name: Afficher la branche
-        run: echo "Branche : ${{ github.ref_name }}"
+        run: |
+          echo "Branche : ${{ github.ref_name }}"
 
       - name: Afficher l'auteur
-        run: echo "Auteur du commit : ${{ github.actor }}"
+        run: |
+          echo "Auteur du commit : ${{ github.actor }}"
