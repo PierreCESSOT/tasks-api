@@ -5,6 +5,7 @@
 Petite API Flask de gestion de tÃ¢ches. On ne travaille pas sur l'application elle-mÃªme :
 c'est un **prÃ©texte** pour apprendre Ã  automatiser les tests, la construction et le dÃ©ploiement.
 
+
 ## DÃ©marrage
 
 ### 1. CrÃ©er votre dÃ©pÃ´t
