@@ -3,7 +3,7 @@ name: CI
 on: push
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Récupérer le code
@@ -17,5 +17,36 @@ jobs:
       - name: Installer les dépendances
         run: pip install -r requirements-dev.txt
 
-      - name: Lancer les tests
-        run: pytest
+      - name: flake8
+        run: flake8 .
+
+      - name: black
+        run: black --check .
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v6
+
+      - name: Installer Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Installer les dépendances
+        run: pip install -r requirements-dev.txt
+
+      - name: Lancer les tests avec couverture
+        run: pytest --cov=app --cov-fail-under=80 --cov-report=xml
+
+      - name: Publier le rapport de couverture
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: coverage.xml
